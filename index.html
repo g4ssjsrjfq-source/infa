@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Планировщик подарков</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">🎁 Планировщик подарков</h1>
+            <nav class="nav">
+                <a href="index.html" class="nav-link active">Главная</a>
+                <a href="my-lists.html" class="nav-link">Мои списки</a>
+                <a href="gift-ideas.html" class="nav-link">Идеи подарков</a>
+                 <a href="settings.html" class="nav-link">Настройки</a>
+            </nav>
+        </div>
+    </header>
+
+ <main class="main">
+        <div class="container">
+            <section class="hero">
+                <h2>Планируйте подарки с удовольствием!</h2>
+                <p>Создавайте списки подарков для близких, отслеживайте бюджет и не пропускайте важные даты.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="openPersonModal()">Добавить человека</button>
+                </div>
+            </section>
+             <div style="text-align:center; margin:15px 0;">
+                <img src="https://avatars.mds.yandex.net/i?id=4c17d905b336e9658dc9e6c3e545ba3b_l-3452879-images-thumbs&n=13" alt="Подарки" style="max-width:400px; border-radius:8px; border:1px solid #ccc;" onerror="this.src='https://placehold.co/250x150/b33/white?text=🎁'">
+            </div>
+            <div style="background:white; border-radius:15px; padding:20px; margin:30px 0;">
+                <h3 style="color:#2c3e50; margin-bottom:15px;">Мои люди</h3>
+                <div id="peopleList">
+                    <p style="color:#95a5a6; text-align:center;"> Нет добавленных людей. Нажмите "Добавить человека"</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p style="text-align:center; padding:20px;">Дарите с душой!</p>
+        </div>
+    </footer>
+        <div id="personModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;">
+        <div style="background:white; padding:30px; border-radius:20px; max-width:400px; width:90%;">
+            <h3 style="margin-bottom:20px;">Добавить человека</h3>
+            <input type="text" id="personName" placeholder="Имя человека" style="width:100%; padding:12px; margin-bottom:15px; border-radius:10px; border:1px solid #ddd;">
+            <input type="text" id="personGift" placeholder="Что подарить?" style="width:100%; padding:12px; margin-bottom:15px; border-radius:10px; border:1px solid #ddd;">
+            <input type="number" id="personBudget" placeholder="Бюджет (руб)" style="width:100%; padding:12px; margin-bottom:15px; border-radius:10px; border:1px solid #ddd;">
+            <button class="btn btn-primary" onclick="addPerson()" style="width:100%;">Сохранить</button>
+            <button onclick="closeModal()" style="width:100%; margin-top:10px; padding:10px; border-radius:10px; border:1px solid #ddd; background:white; cursor:pointer;">Отмена</button>
+        </div>
+    </div>
+
+    <script>
+        let people = JSON.parse(localStorage.getItem('people')) || [];
+
+        function renderPeople() {
+            const container = document.getElementById('peopleList');
+            if(people.length === 0) {
+                container.innerHTML = '<p style="color:#95a5a6; text-align:center;">Нет добавленных людей. Нажмите "Добавить человека"</p>';
+                return;
+            }
+            container.innerHTML = '';
+            people.forEach((p, i) => {
+                container.innerHTML += `
+                    <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid #ecf0f1;">
+                        <div>
+                            <strong>${p.name}</strong> — ${p.gift} <span style="color:#27ae60;">(${p.budget} ₽)</span>
+                        </div>
+                        <button onclick="deletePerson(${i})" style="background:#e74c3c; color:white; border:none; padding:5px 12px; border-radius:20px; cursor:pointer;">✖</button>
+                    </div>
+                `;
+            });
+        }
+
+        function openPersonModal() {
+            document.getElementById('personModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('personModal').style.display = 'none';
+            document.getElementById('personName').value = '';
+            document.getElementById('personGift').value = '';
+            document.getElementById('personBudget').value = '';
+        }
+
+        function addPerson() {
+            const name = document.getElementById('personName').value.trim();
+            const gift = document.getElementById('personGift').value.trim();
+            const budget = document.getElementById('personBudget').value;
+
+            if(!name || !gift) {
+                alert('Заполните имя и подарок!');
+                return;
+            }
+
+            people.push({
+                name: name,
+                gift: gift,
+                budget: budget || 0
+            });
+
+            localStorage.setItem('people', JSON.stringify(people));
+            renderPeople();
+            closeModal();
+        }
+
+        function deletePerson(index) {
+            people.splice(index, 1);
+            localStorage.setItem('people', JSON.stringify(people));
+            renderPeople();
+        }
+
+        renderPeople();
+    </script>
+</body>
+    

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Идеи подарков — Планировщик подарков</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">🎁 Планировщик подарков</h1>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Главная</a>
+                <a href="my-lists.html" class="nav-link">Мои списки</a>
+                <a href="gift-ideas.html" class="nav-link active">Идеи подарков</a>
+                <a href="settings.html" class="nav-link">Настройки</a>
+            </nav>
+        </div>
+    </header>
+    <main class="main">
+        <div class="container">
+            <section class="page-header">
+                <h2>Идеи подарков для разных случаев</h2>
+                <div class="filters">
+                    <button class="btn btn-filter" onclick="showIdeas('all')">Все</button>
+                    <button class="btn btn-filter" onclick="showIdeas('women')">Для женщин</button>
+                    <button class="btn btn-filter" onclick="showIdeas('men')">Для мужчин</button>
+                </div>
+            </section>
+            <div id="ideasOutput" style="background:white; border-radius:15px; padding:20px; margin-bottom:30px; box-shadow:0 2px 10px rgba(0,0,0,0.1);">
+                <p style="color:#7f8c8d; text-align:center;">Нажмите на любую категорию, чтобы увидеть идеи подарков XD</p>
+            </div>
+    <footer class="footer">
+        <div class="container">
+            <p style="text-align:center; padding:20px;">Нажмите на кнопки категорий — получите идеи подарков!</p>
+        </div>
+    </footer>
+    <script>
+        function showIdeas(category) {
+            let outputDiv = document.getElementById('ideasOutput');
+            let ideas = [];
+            switch(category) {
+                case 'all':
+                    ideas = [
+                        'Стильная одежда — от 1 000 ₽',
+                        'Интересная книга — от 500 ₽',
+                        'Настольная игра — от 2 000 ₽',
+                        'Беспроводные наушники — от 3 000 ₽',
+                        'Конструктор LEGO — от 1 800 ₽'
+                    ];
+                    break;
+                case 'women':
+                    ideas = [
+                        'Букет цветов + коробка конфет — от 1 500 ₽',
+                        'Аромалампа с маслами — от 1 200 ₽',
+                        'Сертификат в спа-салон — от 2 000 ₽',
+                        'Платье или блузка — от 2 500 ₽',
+                        'Украшение (серьги, браслет) — от 1 500 ₽'
+                    ];
+                    break;
+                case 'men':
+                    ideas = [
+                        'Набор инструментов — от 2 500 ₽',
+                        'Беспроводные наушники — от 3 000 ₽',
+                        'Набор для пивоварения — от 4 000 ₽',
+                        'Умные часы — от 3 500 ₽',
+                        'Геймерская клавиатура/мышь — от 2 000 ₽'
+                    ];
+                    break;
+                default:
+                    ideas = ['Нажмите на категорию, чтобы увидеть идеи подарков!'];
+            }
+            
+            let html = '<h3 style="color:#e74c3c; margin-bottom:15px;">Идеи подарков:</h3><ul style="list-style:none; padding-left:0;">';
+            ideas.forEach(idea => {
+                html += `<li style="padding:8px 0; border-bottom:1px solid #ecf0f1;"> ${idea}</li>`;
+            });
+            html += '</ul>';
+            outputDiv.innerHTML = html;
+            console.log(`Выбрана категория: ${category}`);
+            console.log('Идеи:', ideas);
+        }
+    </script>
+</body>
+</html>
